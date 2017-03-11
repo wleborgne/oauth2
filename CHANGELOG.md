@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.10.0
+
+### Backward Incompatible Changes
+
+* Serializers are now registered via `OAuth2.register_serializer/2`.
+  This change allows wrapping applications to provide default serializers
+  without requiring the user to manually configure a serializer.
+
 ## v0.9.1 (2017-03-10)
 
 ### Improvements

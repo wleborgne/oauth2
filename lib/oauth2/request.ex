@@ -13,13 +13,18 @@ defmodule OAuth2.Request do
   @spec request(atom, Client.t, binary, body, Client.headers, Keyword.t) :: {:ok, Response.t} | {:error, Error.t}
   def request(method, %Client{} = client, url, body, headers, opts) do
     url = client |> process_url(url) |> process_params(opts[:params])
-    headers = req_headers(client, headers)
+    headers = req_headers(client, headers) |> Enum.uniq
+    |> IO.inspect
     content_type = content_type(headers)
+    |> IO.inspect
     body = encode_request_body(body, content_type)
+    |> IO.inspect
     headers = process_request_headers(headers, content_type)
+    |> IO.inspect
     req_opts = Keyword.merge(client.request_opts, opts)
+    |> IO.inspect
 
-    case :hackney.request(method, url, headers, body, req_opts) do
+    case :hackney.request(method, url, headers, body, req_opts) |> IO.inspect do
       {:ok, ref} when is_reference(ref) ->
         {:ok, ref}
       {:ok, status, headers, ref} when is_reference(ref) ->
